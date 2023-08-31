@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories_sources', function (Blueprint $table) {
-            $table->uuid('source_id');
-            $table->uuid('category_id');
+        Schema::create('users_preferences', function (Blueprint $table) {
+            $table->id();
+            $table->json('preferences')->nullable();
             $table->timestamps();
-
-            $table->foreign('source_id')->references('id')->on('sources');
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories_sources');
+        Schema::dropIfExists('users_preferences');
     }
 };

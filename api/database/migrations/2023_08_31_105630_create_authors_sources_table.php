@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('authors_sources', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->uuid('source_id');
             $table->uuid('author_id');
             $table->timestamps();

@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('source_id');
-            $table->uuid('category_id');
-            $table->uuid('author_id');
-            $table->string('title');
-            $table->text('content');
-            $table->string('date');
-            $table->string('url');
-            $table->string('img_url');
+            $table->uuid('category_id')->nullable();
+            $table->uuid('author_id')->nullable();
+            $table->text('title')->nullable();
+            $table->text('content')->nullable();
+            $table->string('date')->nullable();
+            $table->text('url')->nullable();
+            $table->text('img_url')->nullable();
+            $table->string('source')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('source_id')->references('id')->on('sources');
