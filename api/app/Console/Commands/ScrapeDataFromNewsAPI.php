@@ -69,6 +69,10 @@ class ScrapeDataFromNewsAPI extends Command
 
             News::create($news);
 
+            // Update News Count for the source
+            $source->news_count += 1;
+            $source->save();
+
             $this->info("Imported {$index}");
             $this->newLine();
         });
