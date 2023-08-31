@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Authentication\RegisterController;
+use App\Http\Controllers\Authentication\LoginController;
+use App\Http\Controllers\Authentication\MeController;
+use App\Http\Controllers\Authentication\SetPreferenceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,10 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function(){
-    return response()->json(['data' => []]);
-});
+Route::post('register', RegisterController::class);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', LoginController::class);
+
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+    Route::get('me', MeController::class);
+
+    Route::post('preferences', SetPreferenceController::class);
 });

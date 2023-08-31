@@ -3,6 +3,9 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +29,26 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e): JsonResponse | Response
+    {
+        if ($request->is('api/*'))
+        {
+            {
+                if ($e instanceof ValidationException)
+                {
+                    $exception = $this->convertValidationExceptionToResponse($e, $request);
+
+                    return response()->json([
+                        'message' => $exception->getData()->message,
+                        'status'  => 'error',
+                        'data'    => [],
+                    ], $exception->getStatusCode());
+                }
+            }
+        }
+
+        return parent::render($request, $e);
     }
 }
