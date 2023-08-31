@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  ui:
+    image: ui-dev-i
+    build:
+      dockerfile: dev.Dockerfile
+    container_name: ui_dev_c
+    networks:
+      - sail
+    volumes:
+      - '.:/ui'
+      - 'node_modules:/ui/node_modules/'
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+volumes:
+  node_modules:
+
+networks:
+  sail:
+    driver: bridge

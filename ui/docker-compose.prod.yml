@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  ui:
+    image: ui-prod-i
+    build:
+      dockerfile: prod.Dockerfile
+    container_name: ui_prod_c
+    networks:
+      - sail
+    ports:
+      - "3001:80"
+    environment:
+      - NODE_ENV=production
+
+networks:
+  sail:
+    driver: bridge
