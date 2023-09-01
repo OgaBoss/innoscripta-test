@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\News;
+use App\Models\Source;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\News\QueryBuilders\NewsFeedBuilder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class News extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function source(): BelongsTo
+    public function fromSource(): BelongsTo
     {
         return $this->belongsTo(Source::class);
     }
@@ -26,5 +27,10 @@ class News extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class);
+    }
+
+    public function newEloquentBuilder($query): NewsFeedBuilder
+    {
+        return new NewsFeedBuilder($query);
     }
 }
