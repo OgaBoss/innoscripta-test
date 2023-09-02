@@ -65,28 +65,33 @@ namespace App\Models{
  * @property string|null $date
  * @property string|null $url
  * @property string|null $img_url
- * @property \App\Models\Source $source
+ * @property string|null $source
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Author|null $author
  * @property-read \App\Models\Category|null $category
- * @method static \Illuminate\Database\Eloquent\Builder|News newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|News newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|News query()
- * @method static \Illuminate\Database\Eloquent\Builder|News whereAuthorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereImgUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereSource($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereSourceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|News whereUrl($value)
+ * @property-read \App\Models\Source|null $fromSource
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News newModelQuery()
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News newQuery()
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News query()
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereAuthor(string $authorId)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereAuthorId($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereCategory(string $categoryId)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereCategoryId($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereContent($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereCreatedAt($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereDate($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereDescription($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereId($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereImgUrl($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News wherePublishedAt(string $date)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereSearch(string $keyword)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereSource($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereSourceId($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereTitle($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereUpdatedAt($value)
+ * @method static \App\Domain\News\QueryBuilders\NewsFeedBuilder|News whereUrl($value)
  */
 	class News extends \Eloquent {}
 }
@@ -158,6 +163,7 @@ namespace App\Models{
  * App\Models\UserPreference
  *
  * @property string $id
+ * @property string $user_id
  * @property \Illuminate\Database\Eloquent\Casts\AsArrayObject|null $preferences
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -168,6 +174,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserPreference whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserPreference wherePreferences($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserPreference whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserPreference whereUserId($value)
  */
 	class UserPreference extends \Eloquent {}
 }
