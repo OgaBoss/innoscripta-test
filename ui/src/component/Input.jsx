@@ -57,7 +57,7 @@ export const Input = (
         />}
 
         {isSearch && <Icon icon="icon-park-outline:search" className="absolute top-3 left-3 w-6 h-6" />}
-        {isFilter && <Icon onClick={handleFilter} icon="system-uicons:filtering" className="absolute top-3 right-3 w-6 h-6" />}
+        {isFilter && <Icon onClick={handleFilter} icon="system-uicons:filtering" className="absolute top-3 right-3 w-6 h-6 cursor-pointer" />}
       </div>
       {
         message &&

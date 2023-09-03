@@ -6,6 +6,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import {FormProvider, useForm} from "react-hook-form";
 import {updateAuthor, updateCategory, updateSource, updatePage, resetFilters} from "../feedsSlice.js";
 import { Icon } from '@iconify/react';
+import {setFilter} from "../../shared/sharedSlice.js";
 export const NewsFeeds = () => {
   const {user} = useSelector(state => state.auth)
   const [mode, setMode] = useState('all')
@@ -13,7 +14,6 @@ export const NewsFeeds = () => {
   const dispatch = useDispatch()
   const methods = useForm()
   const {feeds, loading, source, category, author, page, lastPage, total, isSuccess, limit} = useSelector(state => state.feeds)
-  const [filter, setFilter] = useState(false)
 
   const setFilterValues = () => {
     dispatch(updateSource(user.preferences.source))
@@ -76,17 +76,13 @@ export const NewsFeeds = () => {
     }
   }, [page, keyword]);
 
-  const handleFilter = () => {
-    setFilter(!filter)
-  }
-
   return (
     <>
-      <Layout filter={filter} handleFilter={handleFilter} >
+      <Layout  >
         <div className="h-full w-full flex flex-col p-6 space-y-8 overflow-hidden">
           <FormProvider {...methods} >
             <form >
-              <Input id="search" label="" name="search" classNames="w-full" isSearch={true} isFilter={true} handleFilter={handleFilter} handleOnChange={setKeyword} />
+              <Input id="search" label="" name="search" classNames="w-full" isSearch={true} isFilter={true} handleFilter={() => dispatch(setFilter(true))} handleOnChange={setKeyword} />
               {mode === 'all' &&
                 <span onClick={ () => setMode('preference')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
                   View by preferences
@@ -111,7 +107,7 @@ export const NewsFeeds = () => {
               ? <NewsLoading />
               : <div className="overflow-auto flex-1">
                 {
-                  isSuccess && !loading && feeds.length === 0 &&
+                  isSuccess && !loading && feeds?.length === 0 &&
                   <div className="flex flex-col justify-center mt-24 items-center">
                     <Icon icon="line-md:coffee-half-empty-twotone-loop" className="w-[300px] h-[300px] text-body" />
                     <p>Unfortunately no result matches your search</p>

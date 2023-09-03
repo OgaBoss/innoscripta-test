@@ -7,13 +7,18 @@ const initialState = {
   authors: [],
   loading: false,
   isSuccess: false,
+  filter: false,
   errorMessage: null
 }
 
 export const sharedSlice = createSlice({
-  name: "Auth",
+  name: "Shared",
   initialState,
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter =  action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(FetchAllSources.fulfilled, (state, action) => {
       state.sources = action.payload.data
@@ -40,5 +45,7 @@ export const sharedSlice = createSlice({
     })
   },
 })
+
+export const {setFilter} = sharedSlice.actions
 
 export default sharedSlice.reducer

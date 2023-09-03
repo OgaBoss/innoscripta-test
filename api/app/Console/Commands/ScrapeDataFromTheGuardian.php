@@ -21,6 +21,8 @@ class ScrapeDataFromTheGuardian extends Command
 
     protected string $author = 'The Guardian';
 
+    protected array $category = ['Technology', 'Bitcoin', 'Military', 'Religion', 'Movies'];
+
     /**
      * The console command description.
      *
@@ -37,46 +39,54 @@ class ScrapeDataFromTheGuardian extends Command
            $apiKey = config('news.the_guardian_api_key');
            $source = $this->getSource($this->source);
 
-           $request = Http::get("https://content.guardianapis.com/search?api-key={$apiKey}&page-size=50");
+           collect($this->category)->each(function ($item) use($source, $apiKey) {
+               $request = Http::get("https://content.guardianapis.com/search?q={$item}&api-key={$apiKey}&page-size=20");
 
-           // Parse through all articles
-           // Create a News model for each article
-           $request->collect('response.results')->each(function ($article, int $index) use ($source) {
+               // Parse through all articles
+               // Create a News model for each article
+               $request->collect('response.results')->each(function ($article, int $index) use ($source, $item) {
 
-               // Handle Category
-               $category = $article['sectionName'] ? $this->getCategory($article['sectionName']) : null;
-               if ($article['sectionName'] && !$category) {
-                   $category = $this->createCategory($article['sectionName'], $source);
-               }
+                   // Handle Category
+                   $category = $this->getCategory($item);
+                   if (!$category) {
+                       $category = $this->createCategory($item, $source);
+                   }
+                   // Sync category
+                   $this->syncSourceCategory($source, $category);
 
-               // Handle Author
-               $author = $this->getAuthor($this->author);
-               if (!$author) {
-                   $author = $this->createAuthor($this->author, $source);
-               }
+                   // Handle Author
+                   $author = $this->getAuthor($this->author);
+                   if (!$author) {
+                       $author = $this->createAuthor($this->author, $source);
+                   }
 
-               // Transform Articles to News model
-               $news = [
-                   'category_id' => $category->id,
-                   'author_id' => $author?->id,
-                   'source_id' => $source?->id,
-                   'title' => $article['webTitle'],
-                   'content' => $article['webTitle'],
-                   'description' => $article['webTitle'],
-                   'date' => $article['webPublicationDate'],
-                   'url' => $article['webUrl'],
-                   'img_url' => null,
-                   'source' => null
-               ];
+                   if ($author) {
+                       $this->syncSourceAuthor($source, $author);
+                   }
 
-               News::create($news);
+                   // Transform Articles to News model
+                   $news = [
+                       'category_id' => $category->id,
+                       'author_id' => $author?->id,
+                       'source_id' => $source?->id,
+                       'title' => $article['webTitle'],
+                       'content' => $article['webTitle'],
+                       'description' => $article['webTitle'],
+                       'date' => $article['webPublicationDate'],
+                       'url' => $article['webUrl'],
+                       'img_url' => null,
+                       'source' => null
+                   ];
 
-               // Update News Count for the source
-               $source->news_count += 1;
-               $source->save();
+                   News::create($news);
 
-               $this->info("Imported {$index}");
-               $this->newLine();
+                   // Update News Count for the source
+                   $source->news_count += 1;
+                   $source->save();
+
+                   $this->info("Imported {$index}");
+                   $this->newLine();
+               });
            });
 
            $this->info('Command is Done');

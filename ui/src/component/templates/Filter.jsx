@@ -11,8 +11,9 @@ import { Icon } from '@iconify/react';
 import Calendar from 'react-calendar';
 import {updateSource, updateDate, updateAuthor, updateCategory} from "../../modules/news/feedsSlice.js";
 import {FetchNewsFeeds} from "../../modules/news/services.js";
+import {setFilter} from "../../modules/shared/sharedSlice.js";
 
-export const Filters = ({handleFilter}) => {
+export const Filters = () => {
 
   const [value, onChange] = useState(null);
   const [source, setSource] = useState({})
@@ -40,7 +41,7 @@ export const Filters = ({handleFilter}) => {
 
     dispatch(FetchNewsFeeds(params))
 
-    handleFilter()
+    dispatch(setFilter(false))
   }
 
   // Fetch Sources
@@ -60,7 +61,7 @@ export const Filters = ({handleFilter}) => {
     <div className="h-full w-full max-w-xl mx-auto">
       <div className="p-4 border-b border-gray-400 flex justify-between items-center">
         <p className="text-xl font-bold text-body">Filter newsfeed</p>
-        <Icon onClick={handleFilter} icon="uiw:close" className="h-6 w-6 cursor-pointer" />
+        <Icon onClick={() => dispatch(setFilter(false))} icon="uiw:close" className="h-6 w-6 cursor-pointer" />
       </div>
       <div className="flex h-full w-full flex-col space-y-6 p-6">
         <ISelect label="Source" selectedOption={source} setSelected={setSource} options={sources} containerClassNames="w-full" classNames="w-full" />

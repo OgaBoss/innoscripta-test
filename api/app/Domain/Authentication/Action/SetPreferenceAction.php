@@ -10,7 +10,6 @@ class SetPreferenceAction
 {
     public function __invoke(PreferenceDTO $dto, User $user): void
     {
-        ray($user);
         $preference = $user->preference;
 
         $payload = [

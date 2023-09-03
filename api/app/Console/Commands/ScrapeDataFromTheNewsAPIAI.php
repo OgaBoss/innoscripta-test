@@ -14,9 +14,11 @@ class ScrapeDataFromTheNewsAPIAI extends Command
      *
      * @var string
      */
-    protected $signature = 'app:scrape-data-from-the-news-api-ai';
+    protected $signature = 'app:scrape-data-from-api-ai';
 
     protected string $source = 'New York Times';
+
+    protected array $category = ['Technology', 'Bitcoin', 'Military', 'Religion', 'Movies'];
 
     /**
      * The console command description.
@@ -34,52 +36,60 @@ class ScrapeDataFromTheNewsAPIAI extends Command
             $apiKey = config('news.news_api_ai_key');
             $source = $this->getSource($this->source);
 
-            $request = Http::get("http://eventregistry.org/api/v1/article/getArticles", [
-                'apiKey' => $apiKey,
-                "action" => "getArticles",
-                "keyword" => "crypto",
-                "articlesCount" => 100,
-                "articlesArticleBodyLen" => -1,
-            ]);
+            collect($this->category)->each(function ($item) use($source, $apiKey) {
+                $request = Http::get("http://eventregistry.org/api/v1/article/getArticles", [
+                    'apiKey' => $apiKey,
+                    "action" => "getArticles",
+                    "keyword" => $item,
+                    "articlesCount" => 20,
+                    "articlesArticleBodyLen" => -1,
+                ]);
 
-            // Parse through all articles
-            // Create a News model for each article
-            $request->collect('articles.results')->each(function ($article, int $index) use ($source) {
+                // Parse through all articles
+                // Create a News model for each article
+                $request->collect('articles.results')->each(function ($article, int $index) use ($source, $item) {
 
-                // Handle Category
-                $category = $article['dataType'] ? $this->getCategory($article['dataType']) : null;
-                if ($article['dataType'] && !$category) {
-                    $category = $this->createCategory($article['dataType'], $source);
-                }
+                    // Handle Category
+                    $category = $this->getCategory($item);
+                    if (!$category) {
+                        $category = $this->createCategory($item, $source);
+                    }
 
-                // Handle Authors
-                $author = count($article['authors']) > 0 ? $this->getAuthor($article['authors'][0]['name']) : null;
-                if (count($article['authors']) > 0 && !$author) {
-                    $author = $this->createAuthor($article['authors'][0]['name'], $source);
-                }
+                    $this->syncSourceCategory($source, $category);
 
-                // Transform Articles to News model
-                $news = [
-                    'category_id' => $category?->id,
-                    'author_id' => $author?->id,
-                    'source_id' => $source?->id,
-                    'title' => $article['title'],
-                    'content' => $article['body'],
-                    'description' => $article['title'],
-                    'date' => $article['dateTimePub'],
-                    'url' => $article['url'],
-                    'img_url' => $article['image'],
-                    'source' => count($article['source']) > 0 ? $article['source']['title'] : null
-                ];
+                    // Handle Authors
+                    $author = count($article['authors']) > 0 ? $this->getAuthor($article['authors'][0]['name']) : null;
+                    if (count($article['authors']) > 0 && !$author) {
+                        $author = $this->createAuthor($article['authors'][0]['name'], $source);
+                    }
 
-                News::create($news);
+                    if ($author) {
+                        $this->syncSourceAuthor($source, $author);
+                    }
 
-                // Update News Count for the source
-                $source->news_count += 1;
-                $source->save();
+                    // Transform Articles to News model
+                    $news = [
+                        'category_id' => $category?->id,
+                        'author_id' => $author?->id,
+                        'source_id' => $source?->id,
+                        'title' => $article['title'],
+                        'content' => $article['body'],
+                        'description' => $article['title'],
+                        'date' => $article['dateTimePub'],
+                        'url' => $article['url'],
+                        'img_url' => $article['image'],
+                        'source' => count($article['source']) > 0 ? $article['source']['title'] : null
+                    ];
 
-                $this->info("Imported {$index}");
-                $this->newLine();
+                    News::create($news);
+
+                    // Update News Count for the source
+                    $source->news_count += 1;
+                    $source->save();
+
+                    $this->info("Imported {$index}");
+                    $this->newLine();
+                });
             });
 
             $this->info('Command is Done');

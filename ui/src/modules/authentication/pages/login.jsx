@@ -13,12 +13,12 @@ const Login = () => {
     dispatch(UserLogin(data))
   })
 
-  const {loading, isError, isSuccess} = useSelector(state => state.auth)
+  const {loading, isError, isLoginSuccess} = useSelector(state => state.auth)
   const {user} = useSelector(state => state.auth)
   return (
     <>
       {
-        isSuccess
+        isLoginSuccess
           ? user && user.preferences ? <Navigate to="/"/> : <Navigate to="/set-preferences" />
           : <div className="h-screen w-full p-6 flex flex-col max-w-[1240px] mx-auto">
             <div className="mb-10">

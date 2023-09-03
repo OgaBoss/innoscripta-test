@@ -28,6 +28,6 @@ class ArticleSeeder extends Command
     {
         Artisan::call('app:scrape-data-from-news-api');
         Artisan::call('app:scrape-data-from-the-guardian');
-        Artisan::call('app:scrape-data-from-the-news-api-ai');
+        Artisan::call('app:scrape-data-from-api-ai');
     }
 }

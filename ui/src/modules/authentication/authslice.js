@@ -8,6 +8,7 @@ const initialState = {
     loading: false,
     isError: false,
     isSuccess: false,
+    isLoginSuccess: false,
   }
 
 export const authSlice = createSlice({
@@ -25,7 +26,7 @@ export const authSlice = createSlice({
         state.isError = true
         state.errorMessage = action.payload?.message
       } else {
-        state.isSuccess = true
+        state.isLoginSuccess = true
         state.token = action.payload.data?.token
         state.user = action.payload.data?.user
         localStorage.setItem('token', action.payload.data?.token)

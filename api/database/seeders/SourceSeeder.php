@@ -12,7 +12,7 @@ class SourceSeeder extends Seeder
      */
     public function run(): void
     {
-        $source = collect(['NewsAPI', 'OpenNews', 'NewsCred', 'The Guardian', 'New York Times', 'BBC News']);
+        $source = collect(['NewsAPI', 'The Guardian', 'New York Times']);
         $source->each(function ($name) {
             Source::factory()->create([
                 'name' => $name,
