@@ -29,7 +29,7 @@ Route::post('register', RegisterController::class);
 Route::post('login', LoginController::class);
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
 ], function () {
     Route::get('me', MeController::class);
 

@@ -19,7 +19,7 @@ export default {
         },
 
         fontSize: {
-          xs: ['13px', { lineHeight: '19.5px', letterSpacing: '0.12px' }],
+          xs: ['12px', { lineHeight: '19.5px', letterSpacing: '0.12px' }],
           sm: ['14px', { lineHeight: '21px', letterSpacing: '0.12px' }],
           base: ['16px', { lineHeight: '24px', letterSpacing: '0.12px' }],
           lg: ['20px', { lineHeight: '30px', letterSpacing: '0.12px' }],

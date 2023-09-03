@@ -15,6 +15,15 @@ export const emailValidation = {
   },
 }
 
+export const nameValidation = {
+  validation: {
+    required: {
+      value: true,
+      message: 'Name is required',
+    },
+  },
+}
+
 export const passwordValidation = {
   name: 'password',
   label: 'Password',

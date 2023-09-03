@@ -16,9 +16,9 @@ class LoginController
     {
         try
         {
-            $token = $action($dto);
+            $response = $action($dto);
 
-            return response()->json(['data' => ['access_token' => $token], 'status' => 'success'], 200);
+            return response()->json(['data' => $response, 'status' => 'success'], 200);
         }
         catch (LoginFailedException $exception)
         {

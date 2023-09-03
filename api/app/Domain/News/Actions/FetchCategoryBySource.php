@@ -3,7 +3,7 @@
 namespace App\Domain\News\Actions;
 
 use App\Models\Source;
-use Tymon\JWTAuth\Claims\Collection;
+use Illuminate\Support\Collection;;
 
 class FetchCategoryBySource
 {

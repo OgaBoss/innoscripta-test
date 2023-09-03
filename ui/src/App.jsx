@@ -1,11 +1,8 @@
-import { Outlet } from "react-router-dom"
+import {NewsFeeds} from "./modules/news/pages/feeds.jsx";
 
 function App() {
-
   return (
-    <div className="flex min-h-screen flex-col">
-      <Outlet />
-    </div>
+    <NewsFeeds />
   )
 }
 

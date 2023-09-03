@@ -3,6 +3,7 @@
 namespace App\Domain\Authentication\Action;
 
 use App\Domain\Authentication\DTO\LoginDTO;
+use App\Domain\Authentication\Resources\UserResource;
 use App\Exceptions\LoginFailedException;
 
 class LoginAction
@@ -10,7 +11,7 @@ class LoginAction
     /**
      * @throws LoginFailedException
      */
-    public function __invoke(LoginDTO $dto): string
+    public function __invoke(LoginDTO $dto): array
     {
         $token = auth()->attempt($dto->toArray());
 
@@ -18,6 +19,6 @@ class LoginAction
             throw new LoginFailedException('Invalid credentials');
         }
 
-        return $token;
+        return ['user' => new UserResource(auth()->user()), 'token' => $token];
     }
 }

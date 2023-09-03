@@ -14,13 +14,13 @@ const Login = () => {
   })
 
   const {loading, isError, isSuccess} = useSelector(state => state.auth)
-  console.log(isError)
+
   return (
     <>
       {
         isSuccess
-          ? <Navigate to="/" />
-          : <div className="h-screen w-full p-6 flex flex-col">
+          ? <Navigate to="/set-preferences" />
+          : <div className="h-screen w-full p-6 flex flex-col max-w-[1240px] mx-auto">
             <div className="mb-10">
               <p className="font-bold text-3xl">Hello</p>
               <p className="font-bold text-3xl text-primary">Again!</p>
@@ -35,8 +35,8 @@ const Login = () => {
                   noValidate
                   autoComplete="off">
                   <div className="space-y-6">
-                    <Input id="email" label="Email" placeholder="" name="email" validation={emailValidation.validation} />
-                    <Input id="password" label="Password" placeholder="" name="password" validation={passwordValidation.validation} />
+                    <Input id="email" label="Email" placeholder="" name="email" classNames="w-full" validation={emailValidation.validation} isFocused={true} />
+                    <Input id="password" label="Password" placeholder="" name="password" classNames="w-full" validation={passwordValidation.validation} type="password" />
                   </div>
                   <button onClick={onSubmit} className="bg-primary px-6 py-3.5 text-white rounded w-full font-bold flex items-center justify-center">
                     {loading ? <Icon icon="gg:spinner" className="animate-spin h-6 w-6"/> : 'Login'}
@@ -44,7 +44,7 @@ const Login = () => {
                 </form>
               </FormProvider>
             </div>
-            <div class="w-full flex justify-center">
+            <div className="w-full flex justify-center">
               <p className="mt-6 text-cnter">Dont havd an account <Link to="/register" className="text-primary font-bold">Register</Link> </p>
             </div>
           </div>

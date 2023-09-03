@@ -28,6 +28,8 @@ class NewsResource extends JsonResource
             'title'                 => $this->title,
             'content'               => $this->content,
             'date'                  => $this->date,
+            'url'                   => $this->url,
+            'img_url'               => $this->img_url,
             'news_source'           => $this->source,
             'description'           => $this->description,
             'created_at'            => $this->created_at,

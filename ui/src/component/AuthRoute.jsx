@@ -1,6 +1,6 @@
 import {Navigate} from "react-router-dom";
 
-const PrivateRoutes = ({children}) => {
+export const AuthRoutes = ({children}) => {
   const auth = !!localStorage.getItem('token')
 
   if (!auth) {
@@ -9,5 +9,3 @@ const PrivateRoutes = ({children}) => {
 
   return children
 }
-
-export default PrivateRoutes

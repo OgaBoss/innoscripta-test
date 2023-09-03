@@ -17,18 +17,18 @@ class NewsFeedAction
      * @return object
      * @throws BindingResolutionExceptionAlias
      */
-    public function __invoke(NewsFeedFilterDTO $dto, int $limit = 10): object
+    public function __invoke(NewsFeedFilterDTO $dto, int $limit = 10): array
     {
-        $data = News::query()
-            ->when($dto->keyword, fn ($query) => $query->whereSearch($dto->keyword))
+        $data = News::when($dto->keyword, fn ($query) => $query->whereSearch($dto->keyword))
             ->when($dto->date, fn ($query) => $query->wherePublishedAt($dto->date))
             ->when($dto->sourceId, fn ($query) => $query->whereSource($dto->sourceId))
             ->when($dto->categoryId, fn ($query) => $query->whereCategory($dto->categoryId))
             ->when($dto->authorId, fn ($query) => $query->whereAuthor($dto->authorId))
-            ->get();
+            ->paginate($limit);
 
-        ray($data);
+        $collection = new NewsCollection($data);
 
-        return PaginatorHelper::paginate(collect(new NewsCollection($data)), $limit);
+        return $collection->response()->getData(true);
+//        return PaginatorHelper::paginate(collect(new NewsCollection($data)), $limit);
     }
 }

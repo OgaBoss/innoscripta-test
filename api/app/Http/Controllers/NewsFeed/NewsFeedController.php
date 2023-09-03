@@ -11,29 +11,19 @@ class NewsFeedController
 {
     public function __invoke(Request $request, NewsFeedAction $action): JsonResponse
     {
-//        try {
-//            $dto = NewsFeedFilterDTO::from([
-//                'keyword' => $request->query->get('keyword'),
-//                'sourceId' => $request->query->get('source'),
-//                'authorId' => $request->query->get('author'),
-//                'categoryId' => $request->query->get('category'),
-//                'date' => $request->query->get('date'),
-//            ]);
-//
-//            return response()->json(['data' => $action($dto, $request->query->get('limit') ?? 10), 'status' => 'success'], 201);
-//        } catch (\Throwable $exception) {
-//
-//            return response()->json(['data' => [], 'status' => 'error', 'message' => $exception->getMessage()], 500);
-//        }
+        try {
+            $dto = NewsFeedFilterDTO::from([
+                'keyword' => $request->query->get('keyword'),
+                'sourceId' => $request->query->get('source'),
+                'authorId' => $request->query->get('author'),
+                'categoryId' => $request->query->get('category'),
+                'date' => $request->query->get('date'),
+            ]);
 
-        $dto = NewsFeedFilterDTO::from([
-            'keyword' => $request->query->get('keyword'),
-            'sourceId' => $request->query->get('source'),
-            'authorId' => $request->query->get('author'),
-            'categoryId' => $request->query->get('category'),
-            'date' => $request->query->get('date'),
-        ]);
+            return response()->json(['data' => $action($dto, $request->query->get('limit') ?? 10), 'status' => 'success'], 201);
+        } catch (\Throwable $exception) {
 
-        return response()->json(['data' => $action($dto, $request->query->get('limit') ?? 10), 'status' => 'success'], 201);
+            return response()->json(['data' => [], 'status' => 'error', 'message' => $exception->getMessage()], 500);
+        }
     }
 }

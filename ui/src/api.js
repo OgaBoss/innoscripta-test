@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {Navigate} from "react-router-dom";
 
 const apiBaseUrl = `${import.meta.env.VITE_API_URL}api/`;
 
@@ -13,7 +13,8 @@ const HTTP = axios.create(baseConfig);
 HTTP.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 const requestInterceptor = (config) => {
-  return config;
+  config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+  return config
 };
 
 const responseSuccessInterceptor = (response) => {
@@ -22,6 +23,11 @@ const responseSuccessInterceptor = (response) => {
 
 const responseErrorInterceptor = async (error) => {
   console.log(error)
+  if (error.response?.status === 401) {
+    localStorage.removeItem('token')
+    Navigate('/login')
+    return false
+  }
   return error.response?.data;
 };
 
