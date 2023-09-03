@@ -4,64 +4,82 @@ import {useEffect, useState} from "react";
 import {FetchNewsFeeds} from "../services.js";
 import 'react-loading-skeleton/dist/skeleton.css'
 import {FormProvider, useForm} from "react-hook-form";
-import {updateAuthor, updateCategory, updateSource} from "../feedsSlice.js";
+import {updateAuthor, updateCategory, updateSource, updatePage, resetFilters} from "../feedsSlice.js";
 import { Icon } from '@iconify/react';
 export const NewsFeeds = () => {
   const {user} = useSelector(state => state.auth)
-  const [mode, setMode] = useState(false)
+  const [mode, setMode] = useState('all')
   const [keyword, setKeyword] = useState(null)
   const dispatch = useDispatch()
   const methods = useForm()
   const {feeds, loading, source, category, author, page, lastPage, total, isSuccess, limit} = useSelector(state => state.feeds)
   const [filter, setFilter] = useState(false)
 
-  const viewAll = () => {
-    if (mode) {
-      setFilterValues()
-
-      fetchNewsFeedsWithFilter()
-    } else {
-      dispatch(updateSource(null))
-      dispatch(updateCategory(null))
-      dispatch(updateAuthor(null))
-
-      dispatch(FetchNewsFeeds({limit}))
-    }
-
-    setMode(!mode)
-  }
-
   const setFilterValues = () => {
     dispatch(updateSource(user.preferences.source))
     dispatch(updateCategory(user.preferences.category))
     dispatch(updateAuthor(user.preferences.author))
+    dispatch(updatePage(1))
   }
 
   const fetchNewsFeedsWithFilter = () => {
     const params = {
-      source: user.preferences.source?.id,
-      author: user.preferences.author?.id,
-      category: user.preferences.category?.id,
       keyword,
       page,
       limit
     }
+     dispatch(FetchNewsFeeds(params))
+  }
 
+  const fetchNewsFeedsWithPreferences = () => {
+    const {preferences} = user
+    const params = {
+      source: preferences.source?.id,
+      author: preferences.author?.id,
+      category: preferences.category?.id,
+      keyword,
+      page,
+      limit
+    }
     dispatch(FetchNewsFeeds(params))
   }
 
-  useEffect(() => {
-    setFilterValues()
-    fetchNewsFeedsWithFilter()
-  }, [user]);
+  const fetchNewByMode = () => {
+    if (mode === 'all') {
+      dispatch(resetFilters())
+      fetchNewsFeedsWithFilter()
+    } else {
+      setFilterValues()
+      fetchNewsFeedsWithPreferences()
+    }
+  }
+
+  const handleNext = () => {
+    dispatch(updatePage(page + 1))
+  }
+
+  const handlePrev = () => {
+    if (page > 1) {
+      dispatch(updatePage(page - 1))
+    }
+  }
 
   useEffect(() => {
-    fetchNewsFeedsWithFilter()
-  }, [keyword]);
+    fetchNewByMode()
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode === 'all') {
+      fetchNewsFeedsWithFilter()
+    } else {
+      fetchNewsFeedsWithPreferences()
+    }
+  }, [page, keyword]);
 
   const handleFilter = () => {
     setFilter(!filter)
   }
+
   return (
     <>
       <Layout filter={filter} handleFilter={handleFilter} >
@@ -69,9 +87,16 @@ export const NewsFeeds = () => {
           <FormProvider {...methods} >
             <form >
               <Input id="search" label="" name="search" classNames="w-full" isSearch={true} isFilter={true} handleFilter={handleFilter} handleOnChange={setKeyword} />
-              <span onClick={viewAll} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
-                {mode ? 'View Preferences' : 'View all'}
-              </span>
+              {mode === 'all' &&
+                <span onClick={ () => setMode('preference')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
+                  View by preferences
+                </span>
+              }
+              {mode === 'preference' &&
+                <span onClick={() => setMode('all')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
+                  View all
+                </span>
+              }
             </form>
           </FormProvider>
 
@@ -86,7 +111,7 @@ export const NewsFeeds = () => {
               ? <NewsLoading />
               : <div className="overflow-auto flex-1">
                 {
-                  isSuccess && feeds.length === 0 &&
+                  isSuccess && !loading && feeds.length === 0 &&
                   <div className="flex flex-col justify-center mt-24 items-center">
                     <Icon icon="line-md:coffee-half-empty-twotone-loop" className="w-[300px] h-[300px] text-body" />
                     <p>Unfortunately no result matches your search</p>
@@ -97,7 +122,7 @@ export const NewsFeeds = () => {
                     <NewsFeed feed={feed} key={feed.id} />
                   ))}
                 </div>
-                <Pagination page={page} lastPage={lastPage} total={total} limit="10" />
+                <Pagination page={page} lastPage={lastPage} total={total} limit="10" handleNext={handleNext} handlePrev={handlePrev} />
               </div>
           }
         </div>

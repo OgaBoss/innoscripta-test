@@ -21,7 +21,7 @@ export const Filters = ({handleFilter}) => {
 
   const dispatch = useDispatch()
   const {sources, categories, authors, loading} = useSelector(state => state.shared)
-  const {page} = useSelector(state => state.feeds)
+  const {page, limit} = useSelector(state => state.feeds)
 
   const handleSubmit = () => {
     dispatch(updateSource(source))
@@ -34,7 +34,8 @@ export const Filters = ({handleFilter}) => {
       author: author?.id,
       category: category?.id,
       date: value,
-      page
+      page,
+      limit
     }
 
     dispatch(FetchNewsFeeds(params))
@@ -63,7 +64,7 @@ export const Filters = ({handleFilter}) => {
       </div>
       <div className="flex h-full w-full flex-col space-y-6 p-6">
         <ISelect label="Source" selectedOption={source} setSelected={setSource} options={sources} containerClassNames="w-full" classNames="w-full" />
-        <ISelect label="Categoty" selectedOption={category} setSelected={setCategory} options={categories} containerClassNames="w-full" classNames="w-full" />
+        <ISelect label="Category" selectedOption={category} setSelected={setCategory} options={categories} containerClassNames="w-full" classNames="w-full" />
         <ISelect label="Author" selectedOption={author} setSelected={setAuthor} options={authors} containerClassNames="w-full" classNames="w-full" />
         <Calendar onChange={onChange} value={value} />
         <div className="">

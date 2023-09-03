@@ -31,11 +31,20 @@ export const feedsSlice = createSlice({
     },
     updateDate: (state, action) => {
       state.date = action.payload
+    },
+    updatePage: (state, action) => {
+      state.page = action.payload
+    },
+    resetFilters: (state) => {
+      state.source = null
+      state.category = null
+      state.author = null
+      state.page = 1
+
     }
   },
   extraReducers: (builder) => {
     builder.addCase(FetchNewsFeeds.pending, (state, action) => {
-      console.log(FetchNewsFeeds())
       state.loading = true
     })
     builder.addCase(FetchNewsFeeds.fulfilled, (state, action) => {
@@ -48,5 +57,5 @@ export const feedsSlice = createSlice({
   },
 })
 
-export const  {updateSource, updateCategory, updateAuthor, updateDate} = feedsSlice.actions
+export const  {updateSource, updateCategory, updateAuthor, updateDate, resetFilters, updatePage} = feedsSlice.actions
 export default feedsSlice.reducer

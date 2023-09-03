@@ -22,7 +22,6 @@ const responseSuccessInterceptor = (response) => {
 };
 
 const responseErrorInterceptor = async (error) => {
-  console.log(error)
   if (error.response?.status === 401) {
     localStorage.removeItem('token')
     Navigate('/login')

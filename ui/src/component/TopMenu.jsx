@@ -9,6 +9,11 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 
+const logout = () => {
+  localStorage.clear()
+  location.reload()
+}
+
 export const TopMenu = () => {
   return (
     <Disclosure as="header" className="bg-white shadow">
@@ -18,11 +23,13 @@ export const TopMenu = () => {
             <div className="relative flex h-16 justify-between">
               <div className="relative z-10 flex px-2 lg:px-0">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="/logo.svg"
-                    alt="Your Company"
-                  />
+                  <Link to="/">
+                    <img
+                      className="h-8 w-auto"
+                      src="/logo.svg"
+                      alt="Your Company"
+                    />
+                  </Link>
                 </div>
               </div>
 
@@ -49,9 +56,9 @@ export const TopMenu = () => {
                   </div>
                 </Menu>
                 <Disclosure.Button className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
-                  Settings
+                  <Link to="/set-preferences">Settings</Link>
                 </Disclosure.Button>
-                <Disclosure.Button className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
+                <Disclosure.Button onClick={logout} className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
                   Logout
                 </Disclosure.Button>
 
@@ -63,9 +70,9 @@ export const TopMenu = () => {
             <div className="border-t border-gray-200 pb-3 ">
               <div className="mt-3 px-2 flex flex-col space-y-4">
                 <Disclosure.Button className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
-                  <Link to="/login">Settings</Link>
+                  <Link to="/set-preferences">Settings</Link>
                 </Disclosure.Button>
-                <Disclosure.Button className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
+                <Disclosure.Button onClick={logout} className="hover:bg-gray-50 hover:text-gray-900 bg-gray-100 block rounded-md py-2 px-3 text-xs font-medium">
                   Logout
                 </Disclosure.Button>
               </div>

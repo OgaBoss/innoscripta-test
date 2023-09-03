@@ -14,7 +14,7 @@ class NewsFeedAction
     /**
      * @param NewsFeedFilterDTO $dto
      * @param int $limit
-     * @return object
+     * @return array
      * @throws BindingResolutionExceptionAlias
      */
     public function __invoke(NewsFeedFilterDTO $dto, int $limit = 10): array
@@ -29,6 +29,5 @@ class NewsFeedAction
         $collection = new NewsCollection($data);
 
         return $collection->response()->getData(true);
-//        return PaginatorHelper::paginate(collect(new NewsCollection($data)), $limit);
     }
 }

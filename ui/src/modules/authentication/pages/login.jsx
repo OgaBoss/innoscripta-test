@@ -14,12 +14,12 @@ const Login = () => {
   })
 
   const {loading, isError, isSuccess} = useSelector(state => state.auth)
-
+  const {user} = useSelector(state => state.auth)
   return (
     <>
       {
         isSuccess
-          ? <Navigate to="/set-preferences" />
+          ? user && user.preferences ? <Navigate to="/"/> : <Navigate to="/set-preferences" />
           : <div className="h-screen w-full p-6 flex flex-col max-w-[1240px] mx-auto">
             <div className="mb-10">
               <p className="font-bold text-3xl">Hello</p>
