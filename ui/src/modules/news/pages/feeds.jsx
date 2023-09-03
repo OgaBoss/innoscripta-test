@@ -78,51 +78,47 @@ export const NewsFeeds = () => {
 
   return (
     <>
-      <Layout  >
-        <div className="h-full w-full flex flex-col p-6 space-y-8 overflow-hidden">
-          <FormProvider {...methods} >
-            <form >
-              <Input id="search" label="" name="search" classNames="w-full" isSearch={true} isFilter={true} handleFilter={() => dispatch(setFilter(true))} handleOnChange={setKeyword} />
-              {mode === 'all' &&
-                <span onClick={ () => setMode('preference')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
+      <FormProvider {...methods} >
+        <form >
+          <Input id="search" label="" name="search" classNames="w-full" isSearch={true} isFilter={true} handleFilter={() => dispatch(setFilter(true))} handleOnChange={setKeyword} />
+          {mode === 'all' &&
+            <span onClick={ () => setMode('preference')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
                   View by preferences
                 </span>
-              }
-              {mode === 'preference' &&
-                <span onClick={() => setMode('all')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
+          }
+          {mode === 'preference' &&
+            <span onClick={() => setMode('all')} className="block text-primary text-xs hover:underline cursor-pointer text-end mt-2">
                   View all
                 </span>
-              }
-            </form>
-          </FormProvider>
-
-          <div className="space-x-3 flex justify-center">
-            {source?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {source.name}</div>}
-            {category?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {category.name}</div>}
-            {author?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {author.name}</div>}
-          </div>
-
-          {
-            loading
-              ? <NewsLoading />
-              : <div className="overflow-auto flex-1">
-                {
-                  isSuccess && !loading && feeds?.length === 0 &&
-                  <div className="flex flex-col justify-center mt-24 items-center">
-                    <Icon icon="line-md:coffee-half-empty-twotone-loop" className="w-[300px] h-[300px] text-body" />
-                    <p>Unfortunately no result matches your search</p>
-                  </div>
-                }
-                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10  pb-6">
-                  {feeds?.map((feed) => (
-                    <NewsFeed feed={feed} key={feed.id} />
-                  ))}
-                </div>
-                <Pagination page={page} lastPage={lastPage} total={total} limit="10" handleNext={handleNext} handlePrev={handlePrev} />
-              </div>
           }
-        </div>
-      </Layout>
+        </form>
+      </FormProvider>
+
+      <div className="space-x-3 flex justify-center">
+        {source?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {source.name}</div>}
+        {category?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {category.name}</div>}
+        {author?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {author.name}</div>}
+      </div>
+
+      {
+        loading
+          ? <NewsLoading />
+          : <div className="overflow-auto flex-1">
+            {
+              isSuccess && !loading && feeds?.length === 0 &&
+              <div className="flex flex-col justify-center mt-24 items-center">
+                <Icon icon="line-md:coffee-half-empty-twotone-loop" className="w-[300px] h-[300px] text-body" />
+                <p>Unfortunately no result matches your search</p>
+              </div>
+            }
+            <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10  pb-6">
+              {feeds?.map((feed) => (
+                <NewsFeed feed={feed} key={feed.id} />
+              ))}
+            </div>
+            <Pagination page={page} lastPage={lastPage} total={total} limit="10" handleNext={handleNext} handlePrev={handlePrev} />
+          </div>
+      }
     </>
   )
 }

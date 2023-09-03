@@ -14,36 +14,13 @@ import Login from './modules/authentication/pages/login.jsx'
 import Register from './modules/authentication/pages/register.jsx'
 import PageNotFound from "./modules/shared/not-found.jsx";
 import SetPreferences from "./modules/profile/pages/set-preferences.jsx"
+import {NewsFeeds} from "./modules/news/pages/feeds.jsx"
 import { ToastContainer } from 'react-toastify';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <Routes>
-
-          <Route path="/" element={<AuthRoutes>
-            <App />
-          </AuthRoutes>}  />
-
-          <Route path="/set-preferences" element={<AuthRoutes>
-            <SetPreferences />
-          </AuthRoutes>}  />
-
-
-          <Route path="/login" element={<GuestRoutes>
-            <Login />
-          </GuestRoutes>} />
-          <Route path="/register" element={<GuestRoutes>
-            <Register />
-          </GuestRoutes>} />
-
-          {/* default redirect to home page */}
-          <Route path="*" element={<PageNotFound  />} />
-        </Routes>
-
-        <ToastContainer />
-      </BrowserRouter>
+      <App />
     </PersistGate>
   </Provider>
 
