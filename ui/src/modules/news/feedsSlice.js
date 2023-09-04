@@ -1,8 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {FetchNewsFeeds} from "./services.js";
+import {FetchNewsDetails, FetchNewsFeeds} from "./services.js";
 
 const initialState = {
   feeds: [],
+  details: null,
   source: null,
   category: null,
   keyword: null,
@@ -13,6 +14,8 @@ const initialState = {
   date: null,
   author: null,
   loading: false,
+  detailsLoading: false,
+  detailsSuccess: false,
   isSuccess: false
 }
 
@@ -53,6 +56,14 @@ export const feedsSlice = createSlice({
       state.total = action.payload?.data.meta.total
       state.loading = false
       state.isSuccess = true
+    })
+    builder.addCase(FetchNewsDetails.pending, (state, action) => {
+      state.detailsLoading = true
+    })
+    builder.addCase(FetchNewsDetails.fulfilled, (state, action) => {
+      state.detailsLoading = false
+      state.detailsSuccess = true
+      state.details = action.payload?.data
     })
   },
 })

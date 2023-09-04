@@ -36,10 +36,10 @@ const Login = () => {
                   <div className="space-y-6">
                     <Input id="name" label="Name" placeholder="" name="name" classNames="w-full" validation={nameValidation.validation} />
                     <Input id="email" label="Email" placeholder="" name="email" classNames="w-full" validation={emailValidation.validation} />
-                    <Input id="password" label="Password" placeholder="" name="password" classNames="w-full" validation={passwordValidation.validation} />
+                    <Input id="password" label="Password" placeholder="" name="password" classNames="w-full" type="password" validation={passwordValidation.validation} />
                   </div>
                   <button onClick={onSubmit} className="bg-primary px-6 py-3.5 text-white rounded w-full font-bold flex items-center justify-center">
-                    {loading ? <Icon icon="gg:spinner" className="animate-spin h-6 w-6"/> : 'Login'}
+                    {loading ? <Icon icon="gg:spinner" className="animate-spin h-6 w-6"/> : 'Register'}
                   </button>
                 </form>
               </FormProvider>

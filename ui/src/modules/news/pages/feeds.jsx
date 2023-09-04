@@ -1,4 +1,4 @@
-import {Layout, Input, NewsLoading, NewsFeed, Pagination} from "../../../component/index.js";
+import {Input, NewsLoading, NewsFeed, Pagination} from "../../../component/index.js";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {FetchNewsFeeds} from "../services.js";
@@ -13,7 +13,7 @@ export const NewsFeeds = () => {
   const [keyword, setKeyword] = useState(null)
   const dispatch = useDispatch()
   const methods = useForm()
-  const {feeds, loading, source, category, author, page, lastPage, total, isSuccess, limit} = useSelector(state => state.feeds)
+  const {feeds, loading, source, category, author, page, lastPage, total, isSuccess, limit, date} = useSelector(state => state.feeds)
 
   const setFilterValues = () => {
     dispatch(updateSource(user.preferences.source))
@@ -98,6 +98,7 @@ export const NewsFeeds = () => {
         {source?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {source.name}</div>}
         {category?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {category.name}</div>}
         {author?.id && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {author.name}</div>}
+        {date && <div className="py-1 px-2 bg-success/50 rounded w-fit text-xs text-white"> {date}</div>}
       </div>
 
       {

@@ -14,3 +14,16 @@ export const FetchNewsFeeds = createAsyncThunk(
 
   }
 )
+
+
+export const FetchNewsDetails = createAsyncThunk(
+  'feeds/details',
+  async (id, thunkAPI) => {
+    try {
+      return await HTTP.get(`news/${id}`)
+    } catch (e) {
+      thunkAPI.rejectWithValue(e)
+    }
+
+  }
+)

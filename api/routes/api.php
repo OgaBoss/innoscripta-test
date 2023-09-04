@@ -12,6 +12,7 @@ use App\Http\Controllers\NewsFeed\AuthorController;
 use App\Http\Controllers\NewsFeed\SourceCategoryController;
 use App\Http\Controllers\NewsFeed\SourceAuthorController;
 use App\Http\Controllers\NewsFeed\NewsFeedController;
+use App\Http\Controllers\NewsFeed\NewsDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +47,6 @@ Route::group([
     Route::get('sources/{id}/authors', SourceAuthorController::class);
 
     Route::get('news', NewsFeedController::class);
+
+    Route::get('news/{id}', NewsDetailsController::class);
 });

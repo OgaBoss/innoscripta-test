@@ -1,5 +1,4 @@
 import {AuthRoutes, GuestRoutes, Layout} from './component'
-import {Outlet} from 'react-router-dom'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {NewsFeeds} from "./modules/news/pages/feeds.jsx";
 import Login from "./modules/authentication/pages/login.jsx";
@@ -7,6 +6,7 @@ import Register from "./modules/authentication/pages/register.jsx";
 import PageNotFound from "./modules/shared/not-found.jsx";
 import {ToastContainer} from "react-toastify";
 import SetPreferences from "./modules/profile/pages/set-preferences.jsx"
+import {Details} from "./modules/news/pages/details.jsx"
 
 function App() {
   return (
@@ -21,6 +21,10 @@ function App() {
 
             <Route path="/set-preferences" element={<AuthRoutes>
               <SetPreferences />
+            </AuthRoutes>}  />
+
+            <Route path="/news/:id" element={<AuthRoutes>
+              <Details />
             </AuthRoutes>}  />
 
 

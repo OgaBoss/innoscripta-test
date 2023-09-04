@@ -1,5 +1,6 @@
 import {Icon} from "@iconify/react";
 import {NewsFeeds} from "../../modules/news/pages/feeds.jsx";
+import {Link} from 'react-router-dom'
 import PropTypes from "prop-types";
 
 export const NewsFeed = ({feed}) => {
@@ -11,7 +12,7 @@ export const NewsFeed = ({feed}) => {
       </div>
       <div className="flex flex-col space-y-2 flex-1">
         <p className="text-body text-xs font-light">{feed.category ? feed.category.name.toUpperCase() : 'Technology'}</p>
-        <p className="text-body font-bold text-xs h-10 overflow-hidden overflow-ellipsis">{feed.title}</p>
+        <Link to={`news/${feed.id}`} className="text-body font-bold text-xs h-10 overflow-hidden overflow-ellipsis">{feed.title}</Link>
         <p className="text-body text-xs">Author <span className="font-bold italic text-warning">{feed.author ? `${feed.author.name}` : 'Ogaboss'}</span></p>
       </div>
     </div>

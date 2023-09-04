@@ -26,12 +26,16 @@ export const Pagination = ({page, limit, total, lastPage, handleNext, handlePrev
               Previous
             </a>
             }
-            <a
-              onClick={handleNext}
-              className="relative ml-3 cursor-pointer inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
-            >
-              Next
-            </a>
+            {
+              lastPage !== page &&
+              <a
+                onClick={handleNext}
+                className="relative ml-3 cursor-pointer inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+              >
+                Next
+              </a>
+            }
+
           </div>
         </nav>
       }
