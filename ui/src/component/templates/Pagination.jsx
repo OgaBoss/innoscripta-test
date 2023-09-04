@@ -1,5 +1,3 @@
-import {useSelector} from "react-redux";
-
 export const Pagination = ({page, limit, total, lastPage, handleNext, handlePrev}) => {
   const currentPage = page === 1 ? 1 : limit * (page - 1) + 1;
   return (
