@@ -1,4 +1,5 @@
 import {Navigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 export const AuthRoutes = ({children}) => {
   const auth = !!localStorage.getItem('token')
@@ -8,4 +9,8 @@ export const AuthRoutes = ({children}) => {
   }
 
   return children
+}
+
+AuthRoutes.propTypes = {
+  children: PropTypes.object
 }

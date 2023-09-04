@@ -1,5 +1,4 @@
 import {Icon} from "@iconify/react";
-import {NewsFeeds} from "../../modules/news/pages/feeds.jsx";
 import {Link} from 'react-router-dom'
 import PropTypes from "prop-types";
 
@@ -19,6 +18,6 @@ export const NewsFeed = ({feed}) => {
   )
 }
 
-NewsFeeds.propTypes = {
+NewsFeed.propTypes = {
   feed: PropTypes.object
 }

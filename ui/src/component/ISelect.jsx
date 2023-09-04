@@ -113,5 +113,7 @@ ISelect.propTypes = {
   name: PropTypes.string,
   loading: PropTypes.bool,
   containerClassNames: PropTypes.string,
-  selectedOption: PropTypes.object
+  selectedOption: PropTypes.object,
+  valueProperty: PropTypes.object,
+  labelProperty: PropTypes.object
 }

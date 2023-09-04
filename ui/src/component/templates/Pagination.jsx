@@ -1,3 +1,6 @@
+import PropTypes from "prop-types";
+
+
 export const Pagination = ({page, limit, total, lastPage, handleNext, handlePrev}) => {
   const currentPage = page === 1 ? 1 : limit * (page - 1) + 1;
   return (
@@ -39,4 +42,13 @@ export const Pagination = ({page, limit, total, lastPage, handleNext, handlePrev
       }
     </>
   )
+}
+
+Pagination.propTypes = {
+  page: PropTypes.number,
+  limit: PropTypes.number,
+  total: PropTypes.number,
+  lastPage: PropTypes.number,
+  handleNext: PropTypes.func,
+  handlePrev: PropTypes.func,
 }

@@ -47,7 +47,7 @@ export const feedsSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(FetchNewsFeeds.pending, (state, action) => {
+    builder.addCase(FetchNewsFeeds.pending, (state) => {
       state.loading = true
     })
     builder.addCase(FetchNewsFeeds.fulfilled, (state, action) => {
@@ -57,7 +57,7 @@ export const feedsSlice = createSlice({
       state.loading = false
       state.isSuccess = true
     })
-    builder.addCase(FetchNewsDetails.pending, (state, action) => {
+    builder.addCase(FetchNewsDetails.pending, (state) => {
       state.detailsLoading = true
     })
     builder.addCase(FetchNewsDetails.fulfilled, (state, action) => {

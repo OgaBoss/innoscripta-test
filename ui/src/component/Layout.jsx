@@ -1,6 +1,7 @@
 import {TopMenu} from "./TopMenu.jsx";
 import {Filters} from "./templates/Filter.jsx";
 import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 export const Layout = ({children}) => {
   const {filter} = useSelector(state => state.shared)
@@ -19,4 +20,8 @@ export const Layout = ({children}) => {
       </div>
     </div>
   )
+}
+
+Layout.propTypes = {
+  children: PropTypes.object
 }

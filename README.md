@@ -14,7 +14,7 @@
 git clone https://github.com/OgaBoss/innoscripta-test.git 
 ```
 
-2. Go into the api directory and create .env from .env.example
+2. Go into the api directory install composer packages & create .env from .env.example
 ```
 cd api
 composer install
@@ -38,12 +38,11 @@ cd  ..
 ```
 
 6. Run the apps via docker
-
 ```
 ./start.sh dev up
 ```
 
-7. Hande migration and data seeding
+7. Handle migration and data seeding
 ```
 cd api
 ./vendor/bin/sail migrate

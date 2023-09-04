@@ -1,4 +1,4 @@
-import {ISelect, IButton, Layout} from "./index.js";
+import {ISelect, IButton} from "./index.js";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {FetchAllSources, FetchAuthorsBySources, FetchCategoriesBySources, SaveUserPreference} from "../modules/shared/services.js";
@@ -15,9 +15,9 @@ export const SetPreferences = () => {
   const {user} = useSelector(state => state.auth)
   const handleSubmit = () => {
     const payload = {
-      source: source.id,
-      category: category.id,
-      author: author.id
+      source: source?.id,
+      category: category?.id,
+      author: author?.id
     }
     dispatch(SaveUserPreference(payload))
   }

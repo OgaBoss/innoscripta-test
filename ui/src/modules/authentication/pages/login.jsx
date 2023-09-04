@@ -24,7 +24,7 @@ const Login = () => {
             <div className="mb-10">
               <p className="font-bold text-3xl">Hello</p>
               <p className="font-bold text-3xl text-primary">Again!</p>
-              <p className="text-lg font-light">Welcome back you've <br/> been missed</p>
+              <p className="text-lg font-light">Welcome back you have <br/> been missed</p>
             </div>
             <div className="space-y-4">
               {isError && <div className="rounded p-4 bg-error text-white font-semibold">Login Failed, please try again</div>}

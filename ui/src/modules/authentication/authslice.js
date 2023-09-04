@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {FetchMe, UserLogin, UserRegister} from "./services.js";
+import { toast } from 'react-toastify';
 
 const initialState = {
     token: null,
@@ -30,6 +31,7 @@ export const authSlice = createSlice({
         state.token = action.payload.data?.token
         state.user = action.payload.data?.user
         localStorage.setItem('token', action.payload.data?.token)
+        toast.success("Welcome back");
       }
     })
     builder.addCase(UserLogin.rejected, (state) => {
@@ -47,6 +49,7 @@ export const authSlice = createSlice({
         state.errorMessage = action.payload?.message
       } else {
         state.isSuccess = true
+        toast.success("Registration was successful, now you can login");
       }
     })
     builder.addCase(UserRegister.rejected, (state) => {
